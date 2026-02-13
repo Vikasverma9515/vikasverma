@@ -1,35 +1,41 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { HiArrowRight } from "react-icons/hi";
 import { useScramble } from "../hooks/useScramble";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import ParallaxBackground from "./ParallaxBackground";
 
 export default function Hero() {
     const [isHovered, setIsHovered] = useState(false);
     const scrambledTitle = useScramble("AI PRODUCT BUILDER");
     const scrambledSubtitle = useScramble("FULL-STACK DEVELOPER");
 
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end start"]
+    });
+
+    const titleY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]); // Moves fast
+    const subtitleY = useTransform(scrollYProgress, [0, 1], ["0%", "150%"]); // Moves faster
+    const descY = useTransform(scrollYProgress, [0, 1], ["0%", "200%"]); // Moves fastest
+    const textOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]); // Fades out quicker
+
     return (
-        <section className="relative w-full min-h-screen overflow-hidden bg-black selection:bg-white selection:text-black">
-            {/* Subtle Monochrome Glow */}
-            <div className="absolute inset-0 z-0 pointer-events-none">
-                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-zinc-900/50 rounded-full blur-[150px]" />
-                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-zinc-900/30 rounded-full blur-[120px]" />
-            </div>
+        <section ref={containerRef} className="relative w-full min-h-screen overflow-hidden bg-black selection:bg-white selection:text-black">
+            <ParallaxBackground />
 
             {/* Constrained Content */}
             <div className="relative z-10 flex flex-col justify-center min-h-screen max-w-[1400px] mx-auto px-4 md:px-12 pt-20">
-                <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "circOut" }}
-                    className="space-y-8"
-                >
+                <div className="space-y-8">
                     {/* Status Badge */}
-                    <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm">
+                    <motion.div
+                        style={{ y: titleY, opacity: textOpacity }}
+                        className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm"
+                    >
                         <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
@@ -37,7 +43,7 @@ export default function Hero() {
                         <span className="text-sm font-mono tracking-widest uppercase text-zinc-400">
                             System <span className="text-red-500">REC</span>
                         </span>
-                    </div>
+                    </motion.div>
 
                     {/* MASSIVE Typography */}
                     <div
@@ -45,16 +51,25 @@ export default function Hero() {
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
                     >
-                        <h1 className="text-[12vw] leading-[0.85] font-black font-heading tracking-tighter text-white">
+                        <motion.h1
+                            style={{ y: titleY, opacity: textOpacity }}
+                            className="text-[12vw] leading-[0.85] font-black font-heading tracking-tighter text-white"
+                        >
                             {scrambledTitle}
-                        </h1>
-                        <h1 className="text-[12vw] leading-[0.85] font-black font-heading tracking-tighter text-transparent disabled-text-stroke text-stroke-white text-zinc-800 selection:bg-[#FFB800] selection:text-black hover:text-[#FFB800] transition-colors duration-300 cursor-default">
+                        </motion.h1>
+                        <motion.h1
+                            style={{ y: subtitleY, opacity: textOpacity }}
+                            className="text-[12vw] leading-[0.85] font-black font-heading tracking-tighter text-transparent disabled-text-stroke text-stroke-white text-zinc-800 selection:bg-[#FFB800] selection:text-black hover:text-[#FFB800] transition-colors duration-300 cursor-default"
+                        >
                             {scrambledSubtitle}
-                        </h1>
+                        </motion.h1>
                     </div>
 
                     {/* Subheadline & CTA */}
-                    <div className="flex flex-col md:flex-row items-end justify-between gap-12 pt-12 border-t border-zinc-800">
+                    <motion.div
+                        style={{ y: descY, opacity: textOpacity }}
+                        className="flex flex-col md:flex-row items-end justify-between gap-12 pt-12 border-t border-zinc-800"
+                    >
                         <p className="text-xl md:text-2xl text-zinc-400 max-w-xl font-light leading-relaxed">
                             I build <span className="font-bold text-white">intelligent systems</span> and scalable products.
                             Founder of <span className="underline decoration-white decoration-2 underline-offset-4 text-white">BlindCharm</span>.
@@ -76,12 +91,13 @@ export default function Hero() {
                                 <SocialLink href="https://www.linkedin.com/in/vikas-verma-264103275" icon={<FaLinkedin />} />
                             </div>
                         </div>
-                    </div>
-                </motion.div>
+                    </motion.div>
+                </div>
             </div>
 
             {/* AI Avatar (Desktop) */}
             <motion.div
+                style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "20%"]) }}
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1, delay: 0.5 }}
@@ -103,7 +119,7 @@ export default function Hero() {
                             }}
                         /> */}
             </motion.div>
-        </section>
+        </section >
     );
 }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Section from "./Section";
+import { motion } from "framer-motion";
 
 const skills = [
     {
@@ -33,10 +34,22 @@ export default function Skills() {
                 Tech <span className="text-zinc-600">Stack</span>
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[160px]">
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-50px" }}
+                variants={{
+                    visible: { transition: { staggerChildren: 0.1 } }
+                }}
+                className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[160px]"
+            >
                 {skills.map((group, index) => (
-                    <div
+                    <motion.div
                         key={index}
+                        variants={{
+                            hidden: { opacity: 0, y: 20 },
+                            visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "circOut" } }
+                        }}
                         className={`p-8 rounded-2xl flex flex-col justify-between group hover:border-[#FFB800]/50 transition-colors duration-300 ${group.className}`}
                     >
                         <div className="flex justify-between items-start">
@@ -59,9 +72,9 @@ export default function Skills() {
                                 </span>
                             ))}
                         </div>
-                    </div>
+                    </motion.div>
                 ))}
-            </div>
+            </motion.div>
         </Section>
     );
 }
