@@ -25,6 +25,9 @@ export const metadata: Metadata = {
   title: "Vikas | AI Architect & Creative Developer",
   description:
     "I build things that shouldn't exist… but somehow work better than expected. AI Engineer. Full-stack developer. Accidental founder.",
+  icons: {
+    icon: "/favicon.svg",
+  },
   openGraph: {
     title: "Vikas | AI Architect & Creative Developer",
     description: "AI engineer. Full-stack developer. Accidental founder.",
