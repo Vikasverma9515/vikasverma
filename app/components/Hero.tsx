@@ -1,6 +1,5 @@
 "use client";
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 
 const HERO_VIDEO =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_171521_25968ba2-b594-4b32-aab7-f6b69398a6fa.mp4";
@@ -8,60 +7,17 @@ const HERO_VIDEO =
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function Hero() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const textOp = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-
   return (
-    <section ref={ref} className="relative h-screen w-full flex items-end pb-20 md:pb-28 overflow-hidden">
+    <section className="relative h-screen w-full flex items-end pb-20 md:pb-28 overflow-hidden">
 
-      {/* ── Video background ── */}
-      <video
-        autoPlay loop muted playsInline
-        className="absolute inset-0 w-full h-full object-cover opacity-100"
-      >
+      <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
         <source src={HERO_VIDEO} type="video/mp4" />
       </video>
 
-      {/* Fade to black at bottom (blends into next section) */}
+      {/* Fade to black at bottom */}
       <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-black to-transparent pointer-events-none" />
 
-      {/* ── Floating status badges ── */}
-      {/* <motion.div
-        className="absolute top-[30%] left-[8%] floating z-20 hidden sm:block"
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.0, duration: 0.7, ease: EASE }}
-      >
-        <span className="bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full text-[10px] uppercase tracking-widest text-[#e1e0cc]">
-          Currently: Training AI 🤖
-        </span>
-      </motion.div> */}
-
-      {/* <motion.div
-        className="absolute top-[22%] right-[12%] floating-delayed z-20 hidden sm:block"
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.7, ease: EASE }}
-      >
-        <span className="bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full text-[10px] uppercase tracking-widest text-[#e1e0cc]">
-          Building Startups 💸
-        </span>
-      </motion.div> */}
-
-      {/* <motion.div
-        className="absolute bottom-[35%] right-[8%] floating-more z-20 hidden md:block"
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.4, duration: 0.7, ease: EASE }}
-      >
-        <span className="bg-red-500/20 backdrop-blur-md border border-red-500/30 px-4 py-2 rounded-full text-[10px] uppercase tracking-widest text-red-200">
-          Breaking Production 💀
-        </span>
-      </motion.div> */}
-
-      {/* ── Live badge top-center ── */}
+      {/* Live badge */}
       <motion.div
         className="absolute top-[18%] left-1/2 -translate-x-1/2 z-20 hidden lg:block"
         initial={{ opacity: 0, y: 16 }}
@@ -74,13 +30,9 @@ export default function Hero() {
         </span>
       </motion.div>
 
-      {/* ── Main hero content (bottom-left aligned) ── */}
-      <motion.div
-        style={{ y: textY, opacity: textOp }}
-        className="container mx-auto px-[5vw] relative z-10 w-full"
-      >
+      {/* Main hero content */}
+      <div className="container mx-auto px-[5vw] relative z-10 w-full">
         <div className="max-w-5xl">
-          {/* Giant name */}
           <div className="overflow-hidden mb-6">
             <motion.h1
               initial={{ y: "100%" }}
@@ -97,7 +49,6 @@ export default function Hero() {
             </motion.h1>
           </div>
 
-          {/* Bottom row: description + CTA */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-end">
             <motion.p
               className="text-lg md:text-xl font-light leading-snug max-w-lg text-[#e1e0cc]/80"
@@ -134,21 +85,12 @@ export default function Hero() {
             </motion.div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
-      {/* ── Scroll indicator ── */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.2 }}
-      >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          className="w-[1px] h-12 bg-gradient-to-b from-[#e1e0cc]/40 to-transparent"
-        />
-      </motion.div>
+      {/* Scroll indicator — CSS only, no JS */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
+        <div className="w-[1px] h-12 bg-gradient-to-b from-[#e1e0cc]/40 to-transparent animate-pulse" />
+      </div>
     </section>
   );
 }

@@ -106,11 +106,7 @@ export default function Personality() {
                   transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
                 >
                   {note.highlight && (
-                    <motion.span
-                      className="w-1.5 h-1.5 rounded-full bg-green-400 mt-1.5 flex-shrink-0"
-                      animate={{ opacity: [1, 0.3, 1] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    />
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 mt-1.5 flex-shrink-0 animate-pulse" />
                   )}
                   <span className="flex-shrink-0 text-white/25">{note.version}</span>
                   <span>{note.text}</span>
@@ -118,14 +114,10 @@ export default function Personality() {
               ))}
             </div>
 
-            {/* Blinking cursor */}
-            <motion.span
-              className="inline-block mt-8 font-mono text-green-400 text-sm"
-              animate={{ opacity: [1, 0, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
-            >
+            {/* Blinking cursor — CSS */}
+            <span className="inline-block mt-8 font-mono text-green-400 text-sm cursor-blink">
               █
-            </motion.span>
+            </span>
           </motion.div>
 
           {/* Fun facts 2×2 */}
@@ -152,13 +144,7 @@ export default function Personality() {
                 )}
 
                 <div className="flex items-start justify-between">
-                  <motion.span
-                    className="text-3xl"
-                    animate={{ rotate: [0, 5, -5, 0] }}
-                    transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
-                  >
-                    {fact.icon}
-                  </motion.span>
+                  <span className="text-3xl">{fact.icon}</span>
                   <span
                     className="text-[8px] uppercase tracking-widest font-mono px-2 py-0.5 rounded-full"
                     style={{
