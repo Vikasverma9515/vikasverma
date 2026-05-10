@@ -1,84 +1,123 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ── Font tokens ── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-heading: var(--font-outfit);
+  --font-headline-accent: var(--font-instrument-serif);
+  --font-display:         var(--font-almarai);
+  --font-body:            var(--font-almarai);
+
+  --color-background:         #000000;
+  --color-primary:            #fefde8;
+  --color-primary-container:  #e1e0cc;
+  --color-surface:            #141312;
+  --color-surface-container:  #1a1a18;
+  --color-outline-variant:    #47473f;
 }
 
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
+/* ── Global font ── */
+* {
+  font-family: var(--font-almarai), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  box-sizing: border-box;
 }
 
-.animate-marquee {
-  animation: marquee 20s linear infinite;
+/* ── Cursor ── */
+*, *::before, *::after {
+  cursor: none !important;
 }
 
-@keyframes scanline {
-  0% {
-    transform: translateY(-100%);
-  }
+/* ── Base ── */
+html { scroll-behavior: auto; }
 
-  100% {
-    transform: translateY(100%);
-  }
+body {
+  background: #000000;
+  color: #e1e0cc;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-.scanline::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent, rgba(255, 184, 0, 0.1), transparent);
-  animation: scanline 4s linear infinite;
-  pointer-events: none;
-  z-index: 50;
+::selection {
+  background: #e1e0cc;
+  color: #000;
 }
 
+/* ── Noise overlay (fixed, global) ── */
 .noise-bg {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 50;
-  opacity: 0.05;
+  z-index: 9990;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-.text-stroke {
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
-  color: transparent;
+/* ── Floating badge animations ── */
+@keyframes float {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  50%  { transform: translateY(-12px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+.floating          { animation: float 6s ease-in-out infinite; }
+.floating-delayed  { animation: float 7s ease-in-out infinite 1s; }
+.floating-more     { animation: float 5s ease-in-out infinite 0.5s; }
+
+/* ── Marquee ── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee { animation: marquee 30s linear infinite; }
+
+/* ── Slow spin ── */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.spin-slow         { animation: spin-slow 12s linear infinite; }
+.spin-slow-reverse { animation: spin-slow 20s linear infinite reverse; }
+
+/* ── Cursor blink ── */
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.cursor-blink { animation: blink 1s step-end infinite; }
+
+/* ── Reveal char (scroll-linked opacity) ── */
+.reveal-char { opacity: 0.12; transition: opacity 0.3s ease; }
+.reveal-char.active { opacity: 1; }
+
+/* ── Cursor glow ── */
+.cursor-glow {
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(225,224,204,0.03) 0%, transparent 70%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
+  z-index: 9980;
+  will-change: transform;
 }
 
-.text-stroke-black {
-  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.3);
-  color: transparent;
+/* ── Dot-grid pattern ── */
+.dot-grid {
+  background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0);
+  background-size: 40px 40px;
 }
 
-.text-stroke-white {
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
-  color: transparent;
+/* ── Node pulse (AISection diagram rings — CSS beats Framer Motion loops) ── */
+@keyframes node-pulse {
+  0%, 100% { transform: scale(1);    opacity: 0.3; }
+  50%       { transform: scale(1.25); opacity: 0;   }
 }
+.node-pulse { animation: node-pulse 2.4s ease-in-out infinite; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ── Smooth scroll + GPU layer hints ── */
+video { will-change: transform; }
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }

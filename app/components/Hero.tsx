@@ -1,137 +1,154 @@
 "use client";
-
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import Link from "next/link";
-import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { HiArrowRight } from "react-icons/hi";
-import { useScramble } from "../hooks/useScramble";
-import { useState, useRef } from "react";
-import ParallaxBackground from "./ParallaxBackground";
+
+const HERO_VIDEO =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_171521_25968ba2-b594-4b32-aab7-f6b69398a6fa.mp4";
+
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function Hero() {
-    const [isHovered, setIsHovered] = useState(false);
-    const scrambledTitle = useScramble("AI PRODUCT BUILDER");
-    const scrambledSubtitle = useScramble("FULL-STACK DEVELOPER");
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const textOp = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
-    const containerRef = useRef(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end start"]
-    });
+  return (
+    <section ref={ref} className="relative h-screen w-full flex items-end pb-20 md:pb-28 overflow-hidden">
 
-    const titleY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]); // Moves fast
-    const subtitleY = useTransform(scrollYProgress, [0, 1], ["0%", "150%"]); // Moves faster
-    const descY = useTransform(scrollYProgress, [0, 1], ["0%", "200%"]); // Moves fastest
-    const textOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]); // Fades out quicker
+      {/* ── Video background ── */}
+      <video
+        autoPlay loop muted playsInline
+        className="absolute inset-0 w-full h-full object-cover opacity-100"
+      >
+        <source src={HERO_VIDEO} type="video/mp4" />
+      </video>
 
-    return (
-        <section ref={containerRef} className="relative w-full min-h-screen overflow-hidden bg-black selection:bg-white selection:text-black">
-            <ParallaxBackground />
+      {/* Fade to black at bottom (blends into next section) */}
+      <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-black to-transparent pointer-events-none" />
 
-            {/* Constrained Content */}
-            <div className="relative z-10 flex flex-col justify-center min-h-screen max-w-[1400px] mx-auto px-4 md:px-12 pt-20">
-                <div className="space-y-8">
-                    {/* Status Badge */}
-                    <motion.div
-                        style={{ y: titleY, opacity: textOpacity }}
-                        className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm"
-                    >
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                        </span>
-                        <span className="text-sm font-mono tracking-widest uppercase text-zinc-400">
-                            System <span className="text-red-500">REC</span>
-                        </span>
-                    </motion.div>
+      {/* ── Floating status badges ── */}
+      {/* <motion.div
+        className="absolute top-[30%] left-[8%] floating z-20 hidden sm:block"
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.0, duration: 0.7, ease: EASE }}
+      >
+        <span className="bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full text-[10px] uppercase tracking-widest text-[#e1e0cc]">
+          Currently: Training AI 🤖
+        </span>
+      </motion.div> */}
 
-                    {/* MASSIVE Typography */}
-                    <div
-                        className="relative"
-                        onMouseEnter={() => setIsHovered(true)}
-                        onMouseLeave={() => setIsHovered(false)}
-                    >
-                        <motion.h1
-                            style={{ y: titleY, opacity: textOpacity }}
-                            className="text-[12vw] leading-[0.85] font-black font-heading tracking-tighter text-white"
-                        >
-                            {scrambledTitle}
-                        </motion.h1>
-                        <motion.h1
-                            style={{ y: subtitleY, opacity: textOpacity }}
-                            className="text-[12vw] leading-[0.85] font-black font-heading tracking-tighter text-transparent disabled-text-stroke text-stroke-white text-zinc-800 selection:bg-[#FFB800] selection:text-black hover:text-[#FFB800] transition-colors duration-300 cursor-default"
-                        >
-                            {scrambledSubtitle}
-                        </motion.h1>
-                    </div>
+      {/* <motion.div
+        className="absolute top-[22%] right-[12%] floating-delayed z-20 hidden sm:block"
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.2, duration: 0.7, ease: EASE }}
+      >
+        <span className="bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full text-[10px] uppercase tracking-widest text-[#e1e0cc]">
+          Building Startups 💸
+        </span>
+      </motion.div> */}
 
-                    {/* Subheadline & CTA */}
-                    <motion.div
-                        style={{ y: descY, opacity: textOpacity }}
-                        className="flex flex-col md:flex-row items-end justify-between gap-12 pt-12 border-t border-zinc-800"
-                    >
-                        <p className="text-xl md:text-2xl text-zinc-400 max-w-xl font-light leading-relaxed">
-                            I build <span className="font-bold text-white">intelligent systems</span> and scalable products.
-                            Founder of <span className="underline decoration-white decoration-2 underline-offset-4 text-white">BlindCharm</span>.
-                        </p>
+      {/* <motion.div
+        className="absolute bottom-[35%] right-[8%] floating-more z-20 hidden md:block"
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.4, duration: 0.7, ease: EASE }}
+      >
+        <span className="bg-red-500/20 backdrop-blur-md border border-red-500/30 px-4 py-2 rounded-full text-[10px] uppercase tracking-widest text-red-200">
+          Breaking Production 💀
+        </span>
+      </motion.div> */}
 
-                        <div className="flex items-center gap-6">
-                            <Link
-                                href="#projects"
-                                className="group relative px-8 py-4 bg-[#FFB800] text-black font-bold text-lg rounded-full overflow-hidden transition-all hover:scale-105"
-                            >
-                                <div className="absolute inset-0 w-full h-full bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                                <span className="relative flex items-center gap-2">
-                                    View Projects <HiArrowRight />
-                                </span>
-                            </Link>
+      {/* ── Live badge top-center ── */}
+      <motion.div
+        className="absolute top-[18%] left-1/2 -translate-x-1/2 z-20 hidden lg:block"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.6, duration: 0.6 }}
+      >
+        <span className="flex items-center gap-2 bg-white/8 backdrop-blur-md border border-white/15 px-4 py-2 rounded-full text-[10px] uppercase tracking-widest text-[#e1e0cc]">
+          <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+          Open to Work
+        </span>
+      </motion.div>
 
-                            <div className="flex gap-4">
-                                <SocialLink href="https://github.com/Vikasverma9515" icon={<FaGithub />} />
-                                <SocialLink href="https://www.linkedin.com/in/vikas-verma-264103275" icon={<FaLinkedin />} />
-                            </div>
-                        </div>
-                    </motion.div>
-                </div>
-            </div>
-
-            {/* AI Avatar (Desktop) */}
-            <motion.div
-                style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "20%"]) }}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1, delay: 0.5 }}
-                className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 z-20 pointer-events-none mix-blend-screen"
+      {/* ── Main hero content (bottom-left aligned) ── */}
+      <motion.div
+        style={{ y: textY, opacity: textOp }}
+        className="container mx-auto px-[5vw] relative z-10 w-full"
+      >
+        <div className="max-w-5xl">
+          {/* Giant name */}
+          <div className="overflow-hidden mb-6">
+            <motion.h1
+              initial={{ y: "100%" }}
+              animate={{ y: "0%" }}
+              transition={{ duration: 1.0, delay: 0.15, ease: EASE }}
+              className="leading-[0.85] italic tracking-tighter text-[#e1e0cc]"
+              style={{
+                fontFamily: "var(--font-instrument-serif)",
+                fontSize: "clamp(4rem, 15vw, 12rem)",
+              }}
             >
-                {/* <motion.img
-                            src="/ai_holographic_avatar_1770844034053.png"
-                            alt="AI Avatar"
-                            className="w-[500px] h-auto object-contain opacity-80"
-                            animate={{
-                                y: [0, -20, 0],
-                                rotate: [0, 2, -2, 0],
-                                filter: ["brightness(1)", "brightness(1.2)", "brightness(1)"]
-                            }}
-                            transition={{
-                                duration: 6,
-                                repeat: Infinity,
-                                ease: "easeInOut"
-                            }}
-                        /> */}
-            </motion.div>
-        </section >
-    );
-}
+              Vikas
+              <sup className="text-[0.3em] align-super opacity-60">*</sup>
+            </motion.h1>
+          </div>
 
-function SocialLink({ href, icon }: { href: string; icon: React.ReactNode }) {
-    return (
-        <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-4 rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all hover:scale-110"
-        >
-            <span className="text-xl">{icon}</span>
-        </a>
-    );
+          {/* Bottom row: description + CTA */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-end">
+            <motion.p
+              className="text-lg md:text-xl font-light leading-snug max-w-lg text-[#e1e0cc]/80"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: EASE, delay: 0.55 }}
+            >
+              Hi, I&apos;m Vikas. I build things that shouldn&apos;t exist…{" "}
+              <em>but somehow work better than expected.</em>
+              <br />
+              <span className="text-[#e1e0cc]/45 text-sm mt-1 block">
+                AI engineer · Full-stack developer · Accidental founder
+              </span>
+            </motion.p>
+
+            <motion.div
+              className="flex justify-start md:justify-end"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: EASE, delay: 0.75 }}
+            >
+              <a
+                href="#work"
+                className="group inline-flex items-center gap-4 bg-[#e1e0cc] text-black px-8 py-4 rounded-full font-bold uppercase text-xs tracking-widest hover:scale-105 hover:bg-white transition-all duration-300"
+              >
+                Enter the lab
+                <svg
+                  width="16" height="16" viewBox="0 0 16 16" fill="none"
+                  className="group-hover:translate-x-1 transition-transform duration-300"
+                >
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* ── Scroll indicator ── */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.2 }}
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          className="w-[1px] h-12 bg-gradient-to-b from-[#e1e0cc]/40 to-transparent"
+        />
+      </motion.div>
+    </section>
+  );
 }

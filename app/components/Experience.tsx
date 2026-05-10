@@ -1,105 +1,203 @@
 "use client";
+import { useState } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import { useRef } from "react";
 
-import Section from "./Section";
+const EXP_VIDEO =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260503_101827_abebfeec-f243-466b-b494-7f6814c0fbbf.mp4";
 
-const experiences = [
-    {
-        role: "Founder & Full-Stack Developer",
-        company: "BlindCharm",
-        period: "Jan 2025 – Present",
-        description: "Architected and deployed a privacy-first AI dating platform.",
-        achievements: [
-            "Engineered real-time matching engine using Vector Embeddings & WebSockets.",
-            "scaled infrastructure to support 500+ concurrent users on launch.",
-            "Integrated Safety AI agents for real-time content moderation."
-        ],
-        tech: ["Next.js", "Supabase", "Vector DB", "OpenAI"],
-        current: true
-    },
-    {
-        role: "Software Developer Intern",
-        company: "Pixeltec",
-        period: "Sep 2025 – Dec 2025",
-        description: "Feature development for high-traffic production web apps.",
-        achievements: [
-            "Optimized React render cycles, reducing TTI by 30%.",
-            "Built automated testing pipelines for core workflows.",
-            "Collaborated on system migration to Next.js App Router."
-        ],
-        tech: ["React", "TypeScript", "CI/CD"],
-        current: false
-    },
-    {
-        role: "AI Model Evaluator",
-        company: "Outlier AI",
-        period: "Nov 2024 – Present",
-        description: "RLHF and evaluation for state-of-the-art LLMs.",
-        achievements: [
-            "Developed custom evaluation frameworks for code generation models.",
-            "Analyzed failure modes in reasoning chains for extensive datasets."
-        ],
-        tech: ["Python", "RLHF", "Data Analysis"],
-        current: false
-    },
+
+const jobs = [
+  {
+    year: "Now",
+    dates: "Feb 2026 – Present",
+    role: "GenAI Intern",
+    company: "SalesCode.ai",
+    location: "Remote",
+    sub: "Agentic BD automation + RAG pipelines for enterprise sales AI.",
+    current: true,
+    highlights: [
+      "Built RAG pipelines with vector indexing and semantic retrieval using FAISS/Chroma to power context-aware AI responses over enterprise sales data.",
+      "Developed agentic BD automation workflows using LangGraph — orchestrating multi-step agent flows for lead research, outreach sequencing, and pipeline management.",
+      "Engineered stakeholder mapping automation to identify and rank decision-makers from unstructured data, reducing manual prospecting effort across sales cycles.",
+    ],
+    tech: ["Python", "LangChain", "LangGraph", "RAG", "FastAPI"],
+  },
+  {
+    year: "2025",
+    dates: "Jan 2025 – Present",
+    role: "Founder & Full-Stack Dev",
+    company: "BlindCharm",
+    location: "Hyderabad, India",
+    sub: "Built from scratch. 500+ users. Somehow got a dating app to work.",
+    current: true,
+    highlights: [
+      "Launched with 500+ real users; AI-powered matchmaking with preference-driven discovery improved engagement by 30%.",
+      "Developed real-time chat, swipe-based discovery, advanced moderation workflows, and admin dashboard.",
+      "Optimised DB queries improving response time by 40%.",
+    ],
+    tech: ["Next.js", "Supabase", "React", "AWS Rekognition"],
+  },
+  {
+    year: "2024",
+    dates: "Nov 2024 – Present",
+    role: "AI Model Evaluator",
+    company: "Outlier AI",
+    location: "Remote",
+    sub: "Teaching machines how to be slightly less confident when wrong.",
+    current: true,
+    highlights: [
+      "Evaluated AI-generated code, reasoning, and responses to improve LLM alignment.",
+      "Improved evaluation accuracy ~15% through structured feedback and prompt refinement.",
+      "Code review and RLHF pipelines — dataset curation and reasoning benchmarks.",
+    ],
+    tech: ["LLM Evaluation", "Code Review", "Prompt Engineering"],
+  },
+  {
+    year: "2025",
+    dates: "Sep 2025 – Dec 2025",
+    role: "Software Developer Intern",
+    company: "Pixeltec",
+    location: "Remote",
+    sub: "Enhanced AI-driven web products; integrated APIs and improved UI.",
+    current: false,
+    highlights: [
+      "Integrated APIs, improved UI/UX, SEO, and analytics for AI-driven products.",
+      "Developed core modules for itsourtimetogether.com.",
+    ],
+    tech: ["React", "Next.js", "Supabase", "Firebase"],
+  },
 ];
 
 export default function Experience() {
-    return (
-        <Section id="experience" className="bg-white dark:bg-black">
-            <h2 className="text-5xl md:text-7xl font-black font-heading mb-20 text-center uppercase tracking-tighter">
-                Execution <span className="text-zinc-400 dark:text-zinc-700">Path</span>
-            </h2>
+  const [open, setOpen] = useState<number | null>(0);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-5%" });
 
-            <div className="relative max-w-3xl mx-auto">
-                {/* Central Timeline Line */}
-                <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-[1px] bg-zinc-200 dark:bg-zinc-800 -translate-x-1/2" />
+  return (
+    <section id="experience" className="relative py-40 px-[5vw] overflow-hidden" ref={ref}>
+      <video
+        autoPlay loop muted playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src={EXP_VIDEO} type="video/mp4" />
+      </video>
+      {/* Merge with black sections above and below */}
+      <div className="absolute top-0 inset-x-0 h-48 bg-gradient-to-b from-black to-transparent pointer-events-none z-10" />
+      <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-black to-transparent pointer-events-none z-10" />
+      <div className="max-w-4xl mx-auto relative z-10">
 
-                <div className="space-y-16">
-                    {experiences.map((exp, index) => (
-                        <div key={index} className={`relative flex flex-col md:flex-row gap-8 ${index % 2 === 0 ? "md:flex-row-reverse" : ""}`}>
+        {/* Heading */}
+        <motion.h2
+          className="text-4xl md:text-5xl italic mb-4 text-black/80"
+          style={{ fontFamily: "var(--font-instrument-serif)" }}
+          initial={{ opacity: 0, y: 32 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+        >
+          Experience{" "}
+          <span className="text-xl not-italic text-black/35" style={{ fontFamily: "var(--font-almarai)" }}>
+            (But make it not boring)
+          </span>
+        </motion.h2>
 
-                            {/* Timeline Node */}
-                            <div className={`absolute left-[20px] md:left-1/2 w-4 h-4 rounded-full border-4 ${exp.current ? "border-[#FFB800] bg-[#FFB800]" : "border-white dark:border-black bg-zinc-900 dark:bg-zinc-100"} -translate-x-[9px] md:-translate-x-[9px] z-10 mt-6`} />
+        {/* Timeline list */}
+        <div className="mt-14 divide-y divide-black/[0.10]">
+          {jobs.map((job, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 24 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.55, delay: 0.1 + i * 0.09 }}
+            >
+              {/* Row */}
+              <button
+                onClick={() => setOpen(open === i ? null : i)}
+                className="w-full flex items-start md:items-center justify-between py-7 gap-5 text-left group"
+              >
+                {/* Year label */}
+                <span
+                  className={`text-4xl italic shrink-0 w-20 transition-opacity duration-300 text-black ${open === i ? "opacity-80" : "opacity-20 group-hover:opacity-50"
+                    }`}
+                  style={{ fontFamily: "var(--font-instrument-serif)" }}
+                >
+                  {job.year}
+                </span>
 
-                            {/* Content Card */}
-                            <div className={`ml-12 md:ml-0 md:w-1/2 ${index % 2 === 0 ? "md:pl-12" : "md:pr-12"}`}>
-                                <div className={`p-6 bg-zinc-50 dark:bg-black border rounded-xl transition-all duration-300 ${exp.current ? "border-[#FFB800]/50 shadow-[0_0_30px_-5px_rgba(255,184,0,0.1)]" : "border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600"}`}>
-                                    <div className="flex justify-between items-start mb-4">
-                                        <div>
-                                            <h3 className={`text-lg font-bold font-heading uppercase tracking-wide ${exp.current ? "text-[#FFB800]" : ""}`}>{exp.role}</h3>
-                                            <p className="text-zinc-500 text-sm font-mono mt-1">@ {exp.company}</p>
-                                        </div>
-                                        <span className="text-xs font-mono py-1 px-2 bg-zinc-200 dark:bg-zinc-900 rounded text-zinc-600 dark:text-zinc-400">
-                                            {exp.period}
-                                        </span>
-                                    </div>
-
-                                    <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-6 leading-relaxed">
-                                        {exp.description}
-                                    </p>
-
-                                    <div className="space-y-3">
-                                        {exp.achievements.map((item, i) => (
-                                            <div key={i} className="flex items-start gap-3 text-sm text-zinc-500 dark:text-zinc-500">
-                                                <span className="mt-1.5 w-1 h-1 bg-zinc-400 rounded-full shrink-0" />
-                                                {item}
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    <div className="mt-6 flex flex-wrap gap-2 pt-4 border-t border-zinc-100 dark:border-zinc-900">
-                                        {exp.tech.map(t => (
-                                            <span key={t} className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-2 py-1 rounded-sm">
-                                                {t}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+                {/* Role + company */}
+                <div className="flex-grow min-w-0">
+                  <p className={`text-xl md:text-2xl font-bold truncate transition-colors duration-300 ${open === i ? "text-black/85" : "text-black/45 group-hover:text-black/70"
+                    }`}>
+                    {job.role}
+                  </p>
+                  <p className="text-sm text-black/40 mt-0.5 italic">{job.company}</p>
+                  <p className="text-[10px] text-black/30 font-mono mt-0.5 tracking-wide">{job.dates} · {job.location}</p>
                 </div>
-            </div>
-        </Section>
-    );
+
+                {/* Right side: current badge + toggle */}
+                <div className="flex items-center gap-3 shrink-0">
+                  {job.current && (
+                    <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-green-700/30 text-green-700 text-[9px] uppercase tracking-widest font-mono bg-white/30 backdrop-blur-sm">
+                      <span className="w-1 h-1 rounded-full bg-green-600 animate-pulse" />
+                      Now
+                    </span>
+                  )}
+                  <span className={`text-black/30 text-xl transition-transform duration-300 ${open === i ? "rotate-45" : ""}`}>
+                    +
+                  </span>
+                </div>
+              </button>
+
+              {/* Expandable details */}
+              <AnimatePresence initial={false}>
+                {open === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pb-8 pl-0 md:pl-24 grid md:grid-cols-[1fr_auto] gap-8">
+                      <div>
+                        <p className="text-sm text-black/40 italic mb-5">{job.sub}</p>
+                        <ul className="space-y-3">
+                          {job.highlights.map((h, j) => (
+                            <li key={j} className="flex items-start gap-3 text-sm text-black/60 leading-relaxed">
+                              <span className="text-black/30 mt-1 shrink-0">›</span>
+                              {h}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5 content-start">
+                        {job.tech.map((t) => (
+                          <span
+                            key={t}
+                            className="px-3 py-1 text-[9px] uppercase tracking-wider border border-black/15 rounded-full text-black/45 font-mono bg-white/20 backdrop-blur-sm"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Education footnote */}
+        <motion.p
+          className="mt-10 text-[10px] uppercase tracking-widest text-black/30 font-mono"
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          B.E. Computer Engineering — Thapar Institute of Engineering & Technology · 2023 – 2027
+        </motion.p>
+      </div>
+    </section>
+  );
 }

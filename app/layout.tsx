@@ -1,31 +1,51 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google"; // Import fonts
+import { Almarai, Instrument_Serif } from "next/font/google";
 import "./globals.css";
-import FloatingDecor from "./components/FloatingDecor";
+import SmoothScrollProvider from "./providers/SmoothScrollProvider";
+import CustomCursor from "./components/cursor/CustomCursor";
+import AudioPlayer from "./components/audio/AudioPlayer";
+import ScrollProgress from "./components/ui/ScrollProgress";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
+const almarai = Almarai({
+  subsets: ["latin"],
+  variable: "--font-almarai",
+  weight: ["300", "400", "700", "800"],
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  variable: "--font-instrument-serif",
+  style: ["italic"],
+  weight: "400",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "Vikas Verma | AI Product Builder & Full-Stack Developer",
-  description: "Portfolio of Vikas Verma - Full-Stack Developer and AI Product Builder specializing in modern web apps and AI integrations.",
+  title: "Vikas | AI Architect & Creative Developer",
+  description:
+    "I build things that shouldn't exist… but somehow work better than expected. AI Engineer. Full-stack developer. Accidental founder.",
+  openGraph: {
+    title: "Vikas | AI Architect & Creative Developer",
+    description: "AI engineer. Full-stack developer. Accidental founder.",
+    type: "website",
+  },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en">
       <body
-        className={`${inter.variable} ${outfit.variable} antialiased bg-zinc-50 text-zinc-900 dark:bg-black dark:text-zinc-50 font-sans selection:bg-[#FFB800] selection:text-black`}
+        className={`${almarai.variable} ${instrumentSerif.variable} antialiased bg-black text-[#e1e0cc] overflow-x-hidden`}
+        style={{ fontFamily: "var(--font-almarai), sans-serif" }}
       >
-        <div className="noise-bg" />
-        <FloatingDecor />
-        <div className="relative z-10">
+        <div className="noise-bg" aria-hidden="true" />
+        <SmoothScrollProvider>
+          <CustomCursor />
+          <ScrollProgress />
+          <AudioPlayer />
           {children}
-        </div>
+        </SmoothScrollProvider>
       </body>
     </html>
   );
