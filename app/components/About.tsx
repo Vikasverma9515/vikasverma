@@ -131,8 +131,8 @@ export default function About() {
               <div className="pt-4 border-t border-white/10 space-y-2">
                 <p className="text-[10px] uppercase tracking-widest text-[#e1e0cc]/30">Currently</p>
                 {[
-                  "GenAI Intern @ SalesCode.ai — agentic BD automation",
-                  "Scaling BlindCharm — 500+ users, AI matchmaking",
+                  "Fresh off an AI Software Engineering internship @ Tredence Analytics",
+                  "Open to full-time AI/full-stack roles",
                   "B.E. Computer Engineering @ Thapar (2023 – 2027)",
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3">

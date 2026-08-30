@@ -1,6 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { Coffee, Moon, Headphones, Bot, type LucideIcon } from "lucide-react";
 
 const patchNotes = [
   { version: "[v2.4.0]", text: "Updated caffeine tolerance threshold.",       highlight: false },
@@ -10,9 +11,11 @@ const patchNotes = [
   { version: "[active ]", text: "Optimizing for curiosity and speed.",         highlight: true  },
 ];
 
-const funFacts = [
+const funFacts: {
+  icon: LucideIcon; label: string; text: string; highlight: boolean; rotate: string; accent: string; bg: string;
+}[] = [
   {
-    icon: "☕",
+    icon: Coffee,
     label: "Fuel",
     text: "Survives on excessive amounts of Matcha.",
     highlight: false,
@@ -21,7 +24,7 @@ const funFacts = [
     bg: "rgba(161,98,7,0.08)",
   },
   {
-    icon: "🌙",
+    icon: Moon,
     label: "Peak hours",
     text: "100% more productive after midnight.",
     highlight: true,
@@ -30,7 +33,7 @@ const funFacts = [
     bg: "#e1e0cc",
   },
   {
-    icon: "🎧",
+    icon: Headphones,
     label: "Soundtrack",
     text: "Can't work without Lofi or aggressive Techno.",
     highlight: false,
@@ -39,7 +42,7 @@ const funFacts = [
     bg: "rgba(168,85,247,0.08)",
   },
   {
-    icon: "🤖",
+    icon: Bot,
     label: "Hot take",
     text: "Believes LLMs are just spicy autocorrect.",
     highlight: false,
@@ -144,7 +147,7 @@ export default function Personality() {
                 )}
 
                 <div className="flex items-start justify-between">
-                  <span className="text-3xl">{fact.icon}</span>
+                  <fact.icon size={26} color={fact.highlight ? "#000000" : fact.accent} strokeWidth={1.75} />
                   <span
                     className="text-[8px] uppercase tracking-widest font-mono px-2 py-0.5 rounded-full"
                     style={{

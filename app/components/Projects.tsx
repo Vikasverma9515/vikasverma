@@ -6,7 +6,18 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const projects = [
   {
-    num: "01", tag: "Social", title: "BlindCharm",
+    num: "01", tag: "Voice AI", title: "VOXERA",
+    tagline: 'aka "an AI that actually picks up the phone"',
+    bullets: [
+      "Multi-agent voice orchestration — STT → intent routing → TTS",
+      "Post-call analysis: auto summaries + emotion detection",
+      "Live ops dashboard, patient management, bulk outbound calling",
+      "Rebuilt the voice pipeline for latency & reliability",
+    ],
+    accent: "#f59e0b",
+  },
+  {
+    num: "02", tag: "Social", title: "BlindCharm",
     tagline: 'aka "Tinder, but with character development"',
     bullets: [
       "Personality-first matchmaking — looks revealed later",
@@ -18,7 +29,7 @@ const projects = [
     accent: "#f43f5e",
   },
   {
-    num: "02", tag: "Fintech", title: "FinSync",
+    num: "03", tag: "Fintech", title: "FinSync",
     tagline: 'aka "Your finance friend who actually knows stuff"',
     bullets: [
       "Groq-powered financial chatbot",
@@ -30,7 +41,7 @@ const projects = [
     accent: "#10b981",
   },
   {
-    num: "03", tag: "HR Tech", title: "JobNest",
+    num: "04", tag: "HR Tech", title: "JobNest",
     tagline: 'aka "LinkedIn but less painful"',
     bullets: [
       "Role-based job discovery with smart search",
@@ -140,7 +151,7 @@ export default function Projects() {
           </motion.span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
           {projects.map((p, i) => (
             <ProjectCard key={i} p={p} i={i} inView={inView} />
           ))}

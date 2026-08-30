@@ -71,7 +71,7 @@ export default function Hero() {
               transition={{ duration: 0.7, ease: EASE, delay: 0.75 }}
             >
               <a
-                href="#work"
+                href="#github"
                 className="group inline-flex items-center gap-4 bg-[#e1e0cc] text-black px-8 py-4 rounded-full font-bold uppercase text-xs tracking-widest hover:scale-105 hover:bg-white transition-all duration-300"
               >
                 Enter the lab

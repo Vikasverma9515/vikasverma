@@ -111,6 +111,21 @@ body {
 }
 .node-pulse { animation: node-pulse 2.4s ease-in-out infinite; }
 
+/* ── Hidden scrollbar (horizontal drag rails) ── */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ── Flow track (GitHub showcase connecting line) ── */
+.flow-track {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(225,224,204,0.25) 0px,
+    rgba(225,224,204,0.25) 6px,
+    transparent 6px,
+    transparent 14px
+  );
+}
+
 /* ── Smooth scroll + GPU layer hints ── */
 video { will-change: transform; }
 

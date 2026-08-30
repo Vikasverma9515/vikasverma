@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const links = [
-  { label: "Work",    href: "#work" },
-  { label: "About",   href: "#about" },
-  { label: "AI",      href: "#ai" },
-  { label: "Contact", href: "#contact" },
+  { label: "GitHub",     href: "#github" },
+  { label: "Experience", href: "#experience" },
+  { label: "About",      href: "#about" },
+  { label: "Voice",      href: "#voice" },
+  { label: "AI",         href: "#ai" },
+  { label: "Contact",    href: "#contact" },
 ];
 
 export default function Navbar() {

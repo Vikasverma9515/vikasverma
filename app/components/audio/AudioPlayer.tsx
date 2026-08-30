@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { Music } from "lucide-react";
 
 export default function AudioPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -70,7 +71,7 @@ export default function AudioPlayer() {
         </>
       ) : (
         <>
-          <span className="text-base">♪</span>
+          <Music size={14} />
           <span>Music Off</span>
         </>
       )}

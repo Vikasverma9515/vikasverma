@@ -25,7 +25,7 @@ export default function AISection() {
   const inView = useInView(ref, { once: true, margin: "-10%" });
 
   return (
-    <section id="ai" className="py-40 px-[5vw] bg-neutral-950 overflow-hidden" ref={ref}>
+    <section id="ai" className="py-40 px-[5vw] bg-black overflow-hidden" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
 
