@@ -4,16 +4,18 @@ import { motion, useInView } from "framer-motion";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const CONTACT_VIDEO =
-  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260424_064411_9e9d7f84-9277-41f4-ab10-59172d89e6be.mp4";
-
-const ticker =
-  "AI Engineer · RAG Pipelines · LangChain · LangGraph · FastAPI · Next.js · Supabase · Full-Stack · LLM Builder · Agentic Workflows · BlindCharm Founder · ";
+function Sparkle({ size = 12, className = "" }: { size?: number; className?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" className={className}>
+      <path d="M8 0L9.5 6.5L16 8L9.5 9.5L8 16L6.5 9.5L0 8L6.5 6.5L8 0Z" fill="currentColor" />
+    </svg>
+  );
+}
 
 const socials = [
-  // { label: "Twitter", href: "https://twitter.com/vikasverma9515" },
-  { label: "GitHub", href: "https://github.com/Vikasverma9515" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/vikas-verma-264103275" },
+  { label: "GitHub",   href: "https://github.com/Vikasverma9515",               icon: "GH" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/vikas-verma-264103275", icon: "LI" },
+  { label: "Email",    href: "mailto:vikasverma951582@gmail.com",                icon: "@" },
 ];
 
 export default function Contact() {
@@ -24,93 +26,118 @@ export default function Contact() {
     <section
       id="contact"
       ref={ref}
-      className="relative min-h-screen w-full overflow-hidden flex flex-col"
+      className="relative min-h-screen w-full bg-black flex flex-col justify-between overflow-hidden"
     >
+      {/* ── Background: animated gradient blobs ── */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Yellow accent blob */}
+        <div
+          className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(255,229,0,0.04) 0%, transparent 70%)" }}
+        />
+        {/* Subtle grid */}
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)
+            `,
+            backgroundSize: "80px 80px",
+          }}
+        />
+      </div>
 
-      {/* Video — full opacity, unobstructed */}
-      <video
-        autoPlay loop muted playsInline
-        className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src={CONTACT_VIDEO} type="video/mp4" />
-      </video>
+      {/* ── Decorative sparkles ── */}
+      <Sparkle size={20} className="absolute top-20 left-[10%] text-[#FFE500] opacity-50 floating" />
+      <Sparkle size={14} className="absolute top-1/3 right-[12%] text-[#FFE500] opacity-30 floating-delayed" />
+      <Sparkle size={10} className="absolute bottom-40 left-[30%] text-white opacity-15 floating-more" />
 
-      {/* Fade in from black (matches previous section) */}
-      <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-black to-transparent pointer-events-none z-20" />
-      {/* Very soft haze so text on bright sky is crisper */}
-      <div className="absolute top-0 inset-x-0 h-[62%] bg-gradient-to-b from-white/10 via-white/5 to-transparent pointer-events-none" />
+      {/* ── Main contact content ── */}
+      <div className="relative z-10 flex flex-col items-center justify-center text-center px-[5vw] flex-1 py-40">
 
-      {/* ── ALL CONTENT LIVES IN THE SKY (~top 60%) ── */}
-      <div
-        className="relative z-10 flex flex-col items-center justify-center text-center px-[5vw]"
-        style={{ minHeight: "60vh", paddingTop: "5rem", paddingBottom: "2rem" }}
-      >
-        {/* Open-to-work badge */}
+        {/* Open to work badge */}
         <motion.div
-          className="mb-8"
+          className="mb-10"
           initial={{ opacity: 0, y: 14 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55 }}
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-black/15 bg-white/30 backdrop-blur-sm text-[10px] uppercase tracking-widest text-black/60">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-600 animate-pulse" />
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-green-500/25 bg-green-500/5 text-[10px] uppercase tracking-widest text-green-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
             Open to collaboration
           </span>
         </motion.div>
 
-        {/* Main heading — dark on light sky */}
-        <motion.h2
-          className="leading-[0.88] mb-6 text-black/80"
-          style={{
-            fontFamily: "var(--font-instrument-serif)",
-            fontSize: "clamp(3rem, 9vw, 8rem)",
-          }}
-          initial={{ opacity: 0, y: 36 }}
+        {/* Giant heading */}
+        <motion.div
+          className="mb-6"
+          initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.85, ease: EASE, delay: 0.1 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}
         >
-          If you want to build<br />
-          something <span className="italic">crazy…</span>
-        </motion.h2>
+          <h2
+            className="font-black uppercase leading-[0.85] tracking-[-0.03em] text-[#e1e0cc]"
+            style={{
+              fontFamily: "var(--font-almarai), sans-serif",
+              fontWeight: 800,
+              fontSize: "clamp(3.5rem, 12vw, 11rem)",
+            }}
+          >
+            Let&apos;s
+          </h2>
+          <h2
+            className="font-black uppercase leading-[0.85] tracking-[-0.03em]"
+            style={{
+              fontFamily: "var(--font-almarai), sans-serif",
+              fontWeight: 800,
+              fontSize: "clamp(3.5rem, 12vw, 11rem)",
+              WebkitTextStroke: "2px rgba(225,224,204,0.30)",
+              color: "transparent",
+            }}
+          >
+            Build.
+          </h2>
+        </motion.div>
 
-        {/* "hit me up." */}
+        {/* Subtext */}
         <motion.p
-          className="italic text-black/65 mb-10"
-          style={{
-            fontFamily: "var(--font-instrument-serif)",
-            fontSize: "clamp(1.8rem, 5vw, 4.5rem)",
-          }}
+          className="text-lg md:text-xl text-[#e1e0cc]/40 mb-12 max-w-xl leading-relaxed"
+          style={{ fontFamily: "var(--font-instrument-serif)" }}
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: EASE, delay: 0.22 }}
         >
-          hit me up.
+          <em>If you want to build something crazy</em> — AI-powered, voice-driven, or just
+          delightfully complex — I&apos;m your person.
         </motion.p>
 
-        {/* Email */}
+        {/* Email CTA */}
         <motion.a
           href="mailto:vikasverma951582@gmail.com"
-          className="text-base md:text-xl font-light text-black/60 border-b border-black/25 pb-1.5 mb-8 hover:text-black hover:border-black/60 transition-all duration-300"
-          initial={{ opacity: 0, y: 16 }}
+          className="group inline-flex items-center gap-4 bg-[#FFE500] text-black px-8 py-4 rounded-full font-black uppercase text-sm tracking-widest hover:bg-white hover:scale-105 transition-all duration-300 mb-8"
+          initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: EASE, delay: 0.34 }}
         >
-          vikasverma951582@gmail.com
+          Say Hello
+          <Sparkle size={14} className="group-hover:rotate-12 transition-transform" />
         </motion.a>
 
-        {/* Small print */}
-        <motion.p
-          className="text-sm text-black/40 mb-8 italic"
+        {/* Email text */}
+        <motion.a
+          href="mailto:vikasverma951582@gmail.com"
+          className="text-[#e1e0cc]/30 hover:text-[#e1e0cc]/70 transition-colors text-sm font-mono tracking-wider mb-12"
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.44 }}
         >
-          If you don&apos;t want to build something crazy — still hit me up. I&apos;m interesting.
-        </motion.p>
+          vikasverma951582@gmail.com
+        </motion.a>
 
         {/* Social links */}
         <motion.div
-          className="flex justify-center gap-10 text-[10px] uppercase tracking-[0.3em] text-black mb-30 pb-50"
+          className="flex items-center gap-6"
           initial={{ opacity: 0, y: 10 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55, ease: EASE, delay: 0.52 }}
@@ -119,90 +146,55 @@ export default function Contact() {
             <a
               key={s.label}
               href={s.href}
-              target="_blank"
+              target={s.href.startsWith("http") ? "_blank" : undefined}
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors duration-300"
+              className="group flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-white/10 text-[#e1e0cc]/50 hover:text-[#e1e0cc] hover:border-[#FFE500]/30 hover:bg-[#FFE500]/5 transition-all duration-300 text-[10px] uppercase tracking-widest"
             >
+              <span className="text-xs font-bold text-[#FFE500]/60 group-hover:text-[#FFE500]">{s.icon}</span>
               {s.label}
             </a>
           ))}
         </motion.div>
+      </div>
 
-        {/* ── FOOTER INFO — still in the sky ── */}
-        <motion.div
-          className="w-full max-w-6xl"
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.62 }}
-        >
-          {/* Marquee */}
-          {/* <div className="overflow-hidden py-2 border-y border-black/10 mb-8">
-            <div className="flex whitespace-nowrap select-none">
-              {[0, 1].map((k) => (
-                <span
-                  key={k}
-                  className="marquee inline-block text-[10px] uppercase tracking-[0.15em] text-black/20 font-mono"
-                  aria-hidden={k === 1}
-                >
-                  {ticker.repeat(4)}
-                </span>
-              ))}
-            </div>
-          </div> */}
+      {/* ── Footer bar ── */}
+      <motion.div
+        className="relative z-10 border-t border-white/8 px-[5vw] py-8"
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.6, delay: 0.7 }}
+      >
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Name */}
+          <p
+            className="text-2xl font-black uppercase tracking-[-0.02em] text-[#e1e0cc]/80"
+            style={{ fontFamily: "var(--font-almarai), sans-serif" }}
+          >
+            Vikas Verma
+          </p>
 
-          {/* Name + contact row */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-6">
-            <p
-              className="leading-none italic text-white"
-              style={{
-                fontFamily: "var(--font-instrument-serif)",
-                fontSize: "clamp(32px, 7vw, 80px)",
-              }}
-            >
-              Vikas
-            </p>
-
-            <div className="space-y-1 sm:text-right">
-              <a href="mailto:vikasverma951582@gmail.com"
-                className="block text-[10px] font-mono text-black/35 hover:text-black/60 transition-colors tracking-wider">
-                vikasverma951582@gmail.com
-              </a>
-              <a href="tel:+916302206340"
-                className="block text-[10px] font-mono text-black/35 hover:text-black/60 transition-colors tracking-wider">
-                +91 6302206340
-              </a>
-              <p className="text-[9px] font-mono text-black/25 tracking-widest uppercase">
-                Hyderabad, Telangana · India
-              </p>
-            </div>
-          </div>
-
-          {/* Copyright + links */}
-          <div className="pt-4 border-t border-black/10 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-[8px] uppercase tracking-[0.25em] text-black/25 font-mono">
-              © 2026 Vikas Verma · Built with rigor &amp; caffeine
-            </p>
-            <div className="flex gap-5">
+          {/* Right info */}
+          <div className="flex flex-col sm:items-end gap-1">
+            <div className="flex items-center gap-4 text-[9px] font-mono uppercase tracking-widest text-[#e1e0cc]/25">
               {[
-                { l: "GitHub", h: "https://github.com/Vikasverma9515" },
+                { l: "GitHub",   h: "https://github.com/Vikasverma9515" },
                 { l: "LinkedIn", h: "https://www.linkedin.com/in/vikas-verma-264103275" },
-                { l: "Email", h: "mailto:vikasverma951582@gmail.com" },
+                { l: "Email",    h: "mailto:vikasverma951582@gmail.com" },
               ].map(({ l, h }) => (
                 <a key={l} href={h}
                   target={h.startsWith("http") ? "_blank" : undefined}
                   rel="noopener noreferrer"
-                  className="text-[8px] uppercase tracking-[0.2em] text-black/25 hover:text-black/55 transition-colors font-mono"
-                >
+                  className="hover:text-[#e1e0cc]/60 transition-colors">
                   {l}
                 </a>
               ))}
             </div>
+            <p className="text-[9px] font-mono text-[#e1e0cc]/15 uppercase tracking-widest">
+              © 2026 · Built with rigor &amp; caffeine
+            </p>
           </div>
-        </motion.div>
-      </div>
-
-      {/* ── GRASS ZONE — purely decorative, nothing here ── */}
-      <div className="flex-1" />
+        </div>
+      </motion.div>
     </section>
   );
 }

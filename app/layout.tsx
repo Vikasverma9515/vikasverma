@@ -1,36 +1,16 @@
 import type { Metadata } from "next";
-import { Almarai, Instrument_Serif } from "next/font/google";
 import "./globals.css";
-import SmoothScrollProvider from "./providers/SmoothScrollProvider";
-import CustomCursor from "./components/cursor/CustomCursor";
-import AudioPlayer from "./components/audio/AudioPlayer";
-import ScrollProgress from "./components/ui/ScrollProgress";
-
-const almarai = Almarai({
-  subsets: ["latin"],
-  variable: "--font-almarai",
-  weight: ["300", "400", "700", "800"],
-  display: "swap",
-});
-
-const instrumentSerif = Instrument_Serif({
-  subsets: ["latin"],
-  variable: "--font-instrument-serif",
-  style: ["italic"],
-  weight: "400",
-  display: "swap",
-});
+import SilkSpiderCursor from "./components/ui/silk-spider-cursor";
 
 export const metadata: Metadata = {
-  title: "Vikas | AI Architect & Creative Developer",
-  description:
-    "I build things that shouldn't exist… but somehow work better than expected. AI Engineer. Full-stack developer. Accidental founder.",
+  title: "Vikas Verma — AI Engineer & Product Builder",
+  description: "Vikas Verma is a computer engineering student and AI engineer building RAG systems, voice agents, and useful full stack products.",
   icons: {
     icon: "/favicon.svg",
   },
   openGraph: {
-    title: "Vikas | AI Architect & Creative Developer",
-    description: "AI engineer. Full-stack developer. Accidental founder.",
+    title: "Vikas Verma — AI Engineer & Product Builder",
+    description: "AI systems, voice agents, and full stack products built from idea to deployment.",
     type: "website",
   },
 };
@@ -39,16 +19,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body
-        className={`${almarai.variable} ${instrumentSerif.variable} antialiased bg-black text-[#e1e0cc] overflow-x-hidden`}
-        style={{ fontFamily: "var(--font-almarai), sans-serif" }}
+        className="antialiased"
       >
-        <div className="noise-bg" aria-hidden="true" />
-        <SmoothScrollProvider>
-          <CustomCursor />
-          <ScrollProgress />
-          <AudioPlayer />
-          {children}
-        </SmoothScrollProvider>
+        <SilkSpiderCursor
+          anchorSelector="[data-silk-anchor]"
+          silkColor="#fffdf4"
+          bounceColor="#102be8"
+          shadowColor="#07134c"
+          maxThreads={65}
+          seedWebs={10}
+          sleepAfter={5000}
+          zIndex={30}
+          className="silk-cursor-wrap"
+        />
+        {children}
       </body>
     </html>
   );

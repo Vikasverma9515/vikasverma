@@ -59,7 +59,7 @@ export default function Navbar() {
         {/* CTA */}
         <a
           href="#contact"
-          className="hidden md:block bg-[#e1e0cc] text-black text-[10px] font-bold uppercase tracking-widest px-6 py-2 rounded-full hover:bg-white transition-colors"
+          className="hidden md:block bg-[#FFE500] text-black text-[10px] font-bold uppercase tracking-widest px-6 py-2 rounded-full hover:bg-white transition-colors"
         >
           Hire Me
         </a>

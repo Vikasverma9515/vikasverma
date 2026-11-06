@@ -1,86 +1,36 @@
 "use client";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import {
-  Code2,
-  FileCode2,
-  Cpu,
-  Atom,
-  Triangle,
-  Wind,
-  Sparkles,
-  Zap,
-  Server,
-  Database,
-  CircleDot,
-  Link2,
-  Workflow,
-  Brain,
-  Search,
-  Bot,
-  TreePine,
-  BarChart3,
-  Cloud,
-  Container,
-  type LucideIcon,
-} from "lucide-react";
+import LogoLoop from "./react-bits/LogoLoop";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const skillGroups: { cat: string; note: string; items: { name: string; color: string; icon: LucideIcon }[] }[] = [
-  {
-    cat: "Languages", note: "Main character energy",
-    items: [
-      { name: "Python",         color: "#3b82f6", icon: Code2 },
-      { name: "TypeScript",     color: "#6366f1", icon: FileCode2 },
-      { name: "C++",            color: "#e1e0cc", icon: Cpu },
-    ],
-  },
-  {
-    cat: "Frontend", note: "Clean & Modular",
-    items: [
-      { name: "React",          color: "#38bdf8", icon: Atom },
-      { name: "Next.js",        color: "#e1e0cc", icon: Triangle },
-      { name: "Tailwind CSS",   color: "#0ea5e9", icon: Wind },
-      { name: "Framer Motion",  color: "#a855f7", icon: Sparkles },
-    ],
-  },
-  {
-    cat: "Backend", note: "Fast & Reliable",
-    items: [
-      { name: "FastAPI",        color: "#10b981", icon: Zap },
-      { name: "Node.js",        color: "#22c55e", icon: Server },
-      { name: "PostgreSQL",     color: "#3b82f6", icon: Database },
-      { name: "Redis",          color: "#f43f5e", icon: CircleDot },
-    ],
-  },
-  {
-    cat: "AI / LLMs", note: "The real magic",
-    items: [
-      { name: "LangChain",      color: "#22c55e", icon: Link2 },
-      { name: "LangGraph",      color: "#a855f7", icon: Workflow },
-      { name: "OpenAI API",     color: "#e1e0cc", icon: Brain },
-      { name: "FAISS / Chroma", color: "#f59e0b", icon: Search },
-    ],
-  },
-  {
-    cat: "Model Layer", note: "Inference & eval",
-    items: [
-      { name: "Groq",           color: "#f59e0b", icon: Zap },
-      { name: "HuggingFace",    color: "#f97316", icon: Bot },
-      { name: "Pinecone",       color: "#10b981", icon: TreePine },
-      { name: "RLHF / Evals",   color: "#6366f1", icon: BarChart3 },
-    ],
-  },
-  {
-    cat: "Cloud & Infra", note: "Ship anywhere",
-    items: [
-      { name: "Supabase",       color: "#10b981", icon: Zap },
-      { name: "AWS",            color: "#f59e0b", icon: Cloud },
-      { name: "Vercel",         color: "#e1e0cc", icon: Triangle },
-      { name: "Docker",         color: "#38bdf8", icon: Container },
-    ],
-  },
+const TECH_STACK = [
+  { name: "Python",     color: "#3b82f6" },
+  { name: "TypeScript", color: "#6366f1" },
+  { name: "Next.js",    color: "#e1e0cc" },
+  { name: "LangChain",  color: "#a855f7" },
+  { name: "FastAPI",    color: "#10b981" },
+  { name: "LangGraph",  color: "#f59e0b" },
+  { name: "OpenAI",     color: "#e1e0cc" },
+  { name: "Supabase",   color: "#22c55e" },
+  { name: "Docker",     color: "#38bdf8" },
+  { name: "AWS",        color: "#f59e0b" },
+  { name: "FAISS",      color: "#f43f5e" },
+  { name: "Redis",      color: "#f43f5e" },
+];
+
+const HOW_I_WORK = [
+  { n: "01", step: "Understand the problem deeply before touching code" },
+  { n: "02", step: "Prototype fast — validate before building big" },
+  { n: "03", step: "Ship incrementally, iterate with real feedback" },
+  { n: "04", step: "Document for future-me, not just present-me" },
+];
+
+const BUILDING_NOW = [
+  { title: "Voice Agent Platform",  desc: "Real-time AI phone agents with sub-100ms latency", tag: "In Progress" },
+  { title: "RAG Evaluation Suite",  desc: "Automated quality benchmarks for LLM pipelines",   tag: "Building" },
+  { title: "BlindCharm v2",         desc: "AI-powered dating app with 500+ active users",      tag: "Shipped" },
 ];
 
 export default function Skills() {
@@ -88,109 +38,169 @@ export default function Skills() {
   const inView = useInView(ref, { once: true, margin: "-8%" });
 
   return (
-    <section id="skills" className="py-40 px-[5vw] bg-black border-t border-white/5" ref={ref}>
-      <div className="max-w-6xl mx-auto">
+    <section id="skills" ref={ref} className="py-32 bg-black border-t border-white/5 overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-[6vw]">
 
-        <motion.h2
-          className="text-4xl md:text-5xl italic text-center mb-16"
-          style={{ fontFamily: "var(--font-instrument-serif)" }}
-          initial={{ opacity: 0, y: 28 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: EASE }}
-        >
-          Skills{" "}
-          <span className="text-xl not-italic opacity-35" style={{ fontFamily: "var(--font-almarai)" }}>
-            (aka my weapons)
-          </span>
-        </motion.h2>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
-          {skillGroups.map((g, i) => (
-            <motion.div
-              key={i}
-              className="p-5 bg-[#141412] rounded-2xl border border-white/5 hover:border-white/15 transition-colors group relative overflow-hidden"
-              initial={{ opacity: 0, y: 24 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.55, ease: EASE, delay: 0.05 + i * 0.07 }}
-            >
-              {/* Subtle gradient glow on hover */}
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
-                style={{ background: `radial-gradient(ellipse at 50% 0%, ${g.items[0].color}10 0%, transparent 70%)` }}
-              />
-
-              <p className="text-[9px] uppercase tracking-widest text-[#e1e0cc]/30 mb-3 relative z-10">{g.cat}</p>
-
-              <div className="space-y-2 relative z-10">
-                {g.items.map((item) => (
-                  <div key={item.name} className="flex items-center gap-2.5 group-hover:translate-x-0.5 transition-transform duration-300">
-                    <span
-                      className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0"
-                      style={{ background: `${item.color}18`, color: item.color }}
-                    >
-                      <item.icon size={12} />
-                    </span>
-                    <p className="text-sm font-bold text-[#e1e0cc]/75 group-hover:text-[#e1e0cc] transition-colors">
-                      {item.name}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              <p className="text-[9px] italic text-[#e1e0cc]/25 mt-4 relative z-10">{g.note}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Special cards row */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-          {/* Elite Googling */}
-          <motion.div
-            className="col-span-2 p-5 bg-[#e1e0cc] rounded-2xl text-black relative overflow-hidden"
-            initial={{ opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.55, ease: EASE, delay: 0.05 + skillGroups.length * 0.07 }}
-          >
-            <Search className="absolute right-4 top-4 opacity-10" size={48} strokeWidth={1.5} />
-            <p className="text-[9px] uppercase tracking-widest text-black/50 mb-2">Speciality</p>
-            <p className="text-lg font-bold">Elite Googling</p>
-            <p className="text-[9px] italic text-black/50 mt-2">Faster than StackOverflow loads</p>
-          </motion.div>
-
-          {/* Prompt engineering */}
-          <motion.div
-            className="p-5 bg-[#141412] rounded-2xl border border-white/5 hover:border-white/15 transition-colors relative overflow-hidden group"
-            initial={{ opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.55, ease: EASE, delay: 0.55 }}
-          >
-            <Sparkles className="absolute right-3 top-3 opacity-5" size={32} />
-            <div className="flex items-center gap-2 mb-2">
-              <span className="w-5 h-5 rounded flex items-center justify-center" style={{ background: "rgba(225,224,204,0.12)", color: "#e1e0cc" }}>
-                <Sparkles size={12} />
-              </span>
-              <p className="text-[9px] uppercase tracking-widest text-[#e1e0cc]/30">AI Craft</p>
-            </div>
-            <p className="text-sm font-bold text-[#e1e0cc]/80 group-hover:text-[#e1e0cc] transition-colors">Prompt Engineering</p>
-            <p className="text-[9px] italic text-[#e1e0cc]/25 mt-3">Yes, it&apos;s a real skill</p>
-          </motion.div>
-        </div>
-
-        {/* Scrolling marquee strip */}
-        <motion.div
-          className="mt-16 overflow-hidden py-4 border-t border-white/5"
+        {/* ── Section label ── */}
+        <motion.p
+          className="text-[10px] uppercase tracking-widest text-[#e1e0cc]/30 font-mono mb-16"
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 0.6 }}
         >
-          <div className="flex whitespace-nowrap select-none">
-            {[0, 1].map((k) => (
-              <span
-                key={k}
-                className="marquee inline-block text-xs uppercase tracking-[0.2em] text-[#e1e0cc]/10 font-mono"
-              >
-                Python · LangChain · LangGraph · FastAPI · Next.js · Supabase · OpenAI · Groq · FAISS · Chroma · RAG · Agentic AI · React · TypeScript · PostgreSQL · Redis · Docker ·&nbsp;
+          Stack & Work
+        </motion.p>
+
+        {/* ── Tech marquee ── */}
+        <motion.div
+          className="mb-20"
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.7, delay: 0.1 }}
+        >
+          <LogoLoop items={TECH_STACK} speed={40} direction="left" gap={16} />
+        </motion.div>
+
+        {/* ── Widget cards row ── */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+          {/* Card 1: What I'm Building */}
+          <motion.div
+            className="rounded-3xl bg-[#0d0d0b] border border-white/8 p-7 flex flex-col gap-5 hover:border-white/14 transition-colors"
+            initial={{ opacity: 0, y: 28 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
+          >
+            <div className="flex items-center justify-between">
+              <p className="text-[10px] uppercase tracking-widest text-[#e1e0cc]/35 font-mono">What I&apos;m Building</p>
+              <span className="w-2 h-2 rounded-full bg-[#FFE500] animate-pulse" />
+            </div>
+
+            <div className="space-y-4 flex-1">
+              {BUILDING_NOW.map((item, i) => (
+                <div key={i} className="border-b border-white/5 pb-4 last:border-0 last:pb-0">
+                  <div className="flex items-center justify-between mb-1">
+                    <p className="text-sm font-bold text-[#e1e0cc]/85">{item.title}</p>
+                    <span
+                      className="text-[8px] uppercase tracking-widest px-2 py-0.5 rounded-full font-bold"
+                      style={{
+                        background: item.tag === "Shipped" ? "rgba(34,197,94,0.1)" : "rgba(255,229,0,0.08)",
+                        color: item.tag === "Shipped" ? "#22c55e" : "#FFE500",
+                        border: `1px solid ${item.tag === "Shipped" ? "rgba(34,197,94,0.2)" : "rgba(255,229,0,0.2)"}`,
+                      }}
+                    >
+                      {item.tag}
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#e1e0cc]/30">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            <a
+              href="https://github.com/Vikasverma9515"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] uppercase tracking-widest text-[#FFE500]/60 hover:text-[#FFE500] transition-colors"
+            >
+              View on GitHub →
+            </a>
+          </motion.div>
+
+          {/* Card 2: Current Stack */}
+          <motion.div
+            className="rounded-3xl bg-[#0d0d0b] border border-white/8 p-7 flex flex-col gap-5 hover:border-white/14 transition-colors"
+            initial={{ opacity: 0, y: 28 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.25 }}
+          >
+            <p className="text-[10px] uppercase tracking-widest text-[#e1e0cc]/35 font-mono">Current Stack</p>
+
+            <div className="flex flex-wrap gap-2 flex-1">
+              {[
+                { name: "LangChain", c: "#a855f7" },
+                { name: "LangGraph", c: "#f59e0b" },
+                { name: "FastAPI",   c: "#10b981" },
+                { name: "Next.js",   c: "#e1e0cc" },
+                { name: "Supabase",  c: "#22c55e" },
+                { name: "Groq",      c: "#38bdf8" },
+                { name: "Pinecone",  c: "#6366f1" },
+                { name: "Python",    c: "#3b82f6" },
+                { name: "Docker",    c: "#38bdf8" },
+                { name: "AWS",       c: "#f59e0b" },
+              ].map((t, i) => (
+                <span
+                  key={i}
+                  className="px-3 py-1.5 rounded-full text-[10px] uppercase tracking-widest font-bold"
+                  style={{
+                    background: `${t.c}12`,
+                    border: `1px solid ${t.c}30`,
+                    color: t.c,
+                  }}
+                >
+                  {t.name}
+                </span>
+              ))}
+            </div>
+
+            <p className="text-xs text-[#e1e0cc]/25 leading-relaxed">
+              Obsessed with agentic AI, voice systems &amp; shipping products that matter.
+            </p>
+          </motion.div>
+
+          {/* Card 3: How I Work */}
+          <motion.div
+            className="rounded-3xl bg-[#0d0d0b] border border-white/8 p-7 flex flex-col gap-5 hover:border-white/14 transition-colors"
+            initial={{ opacity: 0, y: 28 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.35 }}
+          >
+            <p className="text-[10px] uppercase tracking-widest text-[#e1e0cc]/35 font-mono">How I Work</p>
+
+            <div className="space-y-5 flex-1">
+              {HOW_I_WORK.map((item, i) => (
+                <div key={i} className="flex items-start gap-4">
+                  <span
+                    className="text-xs font-black text-[#FFE500]/40 shrink-0 pt-0.5"
+                    style={{ fontFamily: "var(--font-almarai), sans-serif" }}
+                  >
+                    {item.n}
+                  </span>
+                  <p className="text-sm text-[#e1e0cc]/65 leading-snug">{item.step}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-2 pt-2 border-t border-white/5">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-[9px] uppercase tracking-widest text-green-400/70 font-mono">
+                B.E. CS · Thapar Institute · 2027
               </span>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* ── AI specializations highlight ── */}
+        <motion.div
+          className="mt-5 p-8 rounded-3xl relative overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, rgba(255,229,0,0.06) 0%, rgba(255,229,0,0.01) 100%)",
+            border: "1px solid rgba(255,229,0,0.12)",
+          }}
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, ease: EASE, delay: 0.5 }}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { title: "AI Engineering",   desc: "RAG · Agents · LLM Evals · Multi-agent systems" },
+              { title: "Voice Agents",     desc: "LiveKit · Twilio · Groq · Sub-100ms latency" },
+              { title: "Full-Stack",       desc: "Next.js · FastAPI · Supabase · Deployed at scale" },
+            ].map((item, i) => (
+              <div key={i}>
+                <p className="text-xs font-black text-[#FFE500] uppercase tracking-widest mb-2">{item.title}</p>
+                <p className="text-sm text-[#e1e0cc]/40 leading-relaxed">{item.desc}</p>
+              </div>
             ))}
           </div>
         </motion.div>
